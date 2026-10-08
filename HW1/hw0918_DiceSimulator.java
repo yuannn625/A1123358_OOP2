@@ -3,100 +3,86 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Random;
 
-public class hw0918_DiceSimulator extends JFrame {
+public class DiceSimulator extends JFrame implements ActionListener {
 
-    static JLabel lblInfo = new JLabel(
-        "已擲 0 次，總和 0，平均 0.00",
-        SwingConstants.CENTER
-    );
+    private JLabel statusLabel;
+    private JLabel diceLabel;
+    private JButton rollButton;
 
-    static JLabel lblDice = new JLabel(
-        "-",
-        SwingConstants.CENTER
-    );
+    private int count = 0;
+    private int total = 0;
 
-    static JButton btnRoll = new JButton("擲骰子");
+    private final Random random = new Random();
 
-    static int count = 0;
-    static int sum = 0;
+    public DiceSimulator() {
 
-    static Random random = new Random();
+        // 視窗設定
+        setTitle("骰子模擬器");
+        setSize(400, 320);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
-    public static void main(String[] args) {
+        setLayout(new BorderLayout());
 
-        JFrame frm = new JFrame("骰子模擬器");
-
-        frm.setSize(400, 320);
-        frm.setLocationRelativeTo(null);
-        frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frm.setLayout(new BorderLayout());
-
-        // 上方資訊
-        lblInfo.setFont(
-            new Font("Microsoft JhengHei", Font.PLAIN, 18)
+        // 上方統計資料
+        statusLabel = new JLabel(
+                "已擲 0 次，總和 0，平均 0.00",
+                SwingConstants.CENTER
         );
+        statusLabel.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 18));
+        add(statusLabel, BorderLayout.NORTH);
 
         // 中央骰子點數
-        lblDice.setFont(
-            new Font("Arial", Font.BOLD, 60)
-        );
+        diceLabel = new JLabel("－", SwingConstants.CENTER);
+        diceLabel.setFont(new Font("Arial", Font.BOLD, 60));
+        diceLabel.setForeground(Color.BLACK);
+        add(diceLabel, BorderLayout.CENTER);
 
         // 下方按鈕
-        btnRoll.setFont(
-            new Font("Microsoft JhengHei", Font.PLAIN, 20)
-        );
+        rollButton = new JButton("擲骰子");
+        rollButton.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 20));
+        rollButton.addActionListener(this);
+        add(rollButton, BorderLayout.SOUTH);
 
-        frm.add(lblInfo, BorderLayout.NORTH);
-        frm.add(lblDice, BorderLayout.CENTER);
-        frm.add(btnRoll, BorderLayout.SOUTH);
+        setVisible(true);
+    }
 
-        btnRoll.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
 
-            public void actionPerformed(ActionEvent e) {
+        // 隨機產生 1～6
+        int number = random.nextInt(6) + 1;
 
-                // ① 產生本次骰子點數 1～6
-                int dice = random.nextInt(6) + 1;
+        count++;
+        total += number;
 
-                // ② 次數 +1
-                count = count + 1;
+        // 顯示目前點數
+        diceLabel.setText(String.valueOf(number));
 
-                // ③ 將「本次骰子點數」加入總和
-                sum = sum + dice;
+        // 改變點數顏色
+        if (number == 6) {
+            diceLabel.setForeground(Color.GREEN);
+        } else if (number == 1) {
+            diceLabel.setForeground(Color.RED);
+        } else {
+            diceLabel.setForeground(Color.BLACK);
+        }
 
-                // ④ 計算平均
-                double average = (double) sum / count;
+        // 計算平均
+        double average = (double) total / count;
 
-                // ⑤ 顯示本次骰子點數
-                lblDice.setText(Integer.toString(dice));
-
-                // ⑥ 設定點數顏色
-                if (dice == 6) {
-                    lblDice.setForeground(Color.GREEN);
-                } 
-                else if (dice == 1) {
-                    lblDice.setForeground(Color.RED);
-                } 
-                else {
-                    lblDice.setForeground(Color.BLACK);
-                }
-
-                // ⑦ 顯示統計資料
-                lblInfo.setText(
-                    String.format(
+        // 更新統計資料
+        statusLabel.setText(
+                String.format(
                         "已擲 %d 次，總和 %d，平均 %.2f",
-                        count, sum, average
-                    )
-                );
+                        count, total, average
+                )
+        );
+    }
 
-                // Terminal 顯示，方便檢查
-                System.out.println(
-                    "本次：" + dice +
-                    "  次數：" + count +
-                    "  總和：" + sum
-                );
-            }
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            new DiceSimulator();
         });
-
-        frm.setVisible(true);
     }
 }
