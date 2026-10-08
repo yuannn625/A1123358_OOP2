@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Random;
 
-public class DiceSimulator extends JFrame implements ActionListener {
+public class hw0918_DiceSimulator extends JFrame implements ActionListener {
 
     private JLabel statusLabel;
     private JLabel diceLabel;
@@ -14,7 +14,7 @@ public class DiceSimulator extends JFrame implements ActionListener {
 
     private final Random random = new Random();
 
-    public DiceSimulator() {
+    public hw0918_DiceSimulator() {
 
         // 視窗設定
         setTitle("骰子模擬器");
@@ -82,7 +82,7 @@ public class DiceSimulator extends JFrame implements ActionListener {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            new DiceSimulator();
+            new hw0918_DiceSimulator();
         });
     }
 }
