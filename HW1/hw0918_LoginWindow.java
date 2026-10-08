@@ -1,54 +1,49 @@
 import javax.swing.*;
-import java.awt.*;
 
 public class hw0918_LoginWindow extends JFrame {
 
     public hw0918_LoginWindow() {
+
         setTitle("登入");
-        setSize(350, 220);
+        setSize(300, 200);
+        setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // 建立元件
-        JLabel accountLabel = new JLabel("帳號：");
-        JTextField accountField = new JTextField(15);
+        JLabel l1 = new JLabel("帳號:");
+        JTextField t1 = new JTextField();
 
-        JLabel passwordLabel = new JLabel("密碼：");
-        JPasswordField passwordField = new JPasswordField(15);
+        JLabel l2 = new JLabel("密碼:");
+        JPasswordField t2 = new JPasswordField();
 
-        JButton loginButton = new JButton("登入");
+        JButton btn = new JButton("登入");
 
-        // 建立面板
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(3, 2, 10, 10));
+        // 設定元件位置
+        l1.setBounds(40, 30, 60, 25);
+        t1.setBounds(100, 30, 130, 25);
 
-        panel.add(accountLabel);
-        panel.add(accountField);
+        l2.setBounds(40, 70, 60, 25);
+        t2.setBounds(100, 70, 130, 25);
 
-        panel.add(passwordLabel);
-        panel.add(passwordField);
+        btn.setBounds(100, 110, 80, 30);
 
-        panel.add(new JLabel(""));
-        panel.add(loginButton);
+        // 加入視窗
+        add(l1);
+        add(t1);
+        add(l2);
+        add(t2);
+        add(btn);
 
-        add(panel);
+        // 登入按鈕事件
+        btn.addActionListener(e -> {
 
-        // 按下登入按鈕
-        loginButton.addActionListener(e -> {
-
-            String account = accountField.getText();
-            String password = new String(passwordField.getPassword());
+            String account = t1.getText();
+            String password = new String(t2.getPassword());
 
             if (account.equals("admin") && password.equals("1234")) {
-                JOptionPane.showMessageDialog(
-                        this,
-                        "登入成功！"
-                );
+                JOptionPane.showMessageDialog(this, "登入成功");
             } else {
-                JOptionPane.showMessageDialog(
-                        this,
-                        "帳號或密碼錯誤！"
-                );
+                JOptionPane.showMessageDialog(this, "帳號或密碼錯誤");
             }
         });
 
